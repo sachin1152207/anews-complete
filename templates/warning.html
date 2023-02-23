@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #FAEAB1;
+            height: 100vh;
+            width: 100vw;
+            display: grid;
+            place-items: center;
+        }
+
+        h1 {
+            font-size: 80px;
+            text-align: center;
+            /* padding: 5px; */
+        }
+
+        p {
+            font-size: 20px;
+            color: black;
+            text-align: center;
+        }
+
+        section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            padding: 5px 10px;
+            font-size: 18px;
+            color: blueviolet;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <h1>{{errorcode}}</h1>
+        <p>{{title}}</p>
+        <a>Go Back</a>
+    </section>
+</body>
+<script>
+    document.querySelector('a').addEventListener('click', function () {
+        if ('referrer' in document) {
+            window.location = document.referrer;
+            /* OR */
+            //location.replace(document.referrer);
+        } else {
+            window.history.back();
+        }
+    })
+</script>
+
+</html>

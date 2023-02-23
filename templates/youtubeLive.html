@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assest/style/anews_style.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assest/style/mediaQuery_anews_style.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assest/style/css_utlis.css')}}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='./assest/icon/favicon-32x32.png')}}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <title>Anews | Online News Portal Birgunj</title>
+    
+</head>
+
+<body>
+    <div id="preloader"></div>
+    <!-- Header -->
+    <header class="header d-flex justify-between item-center">
+        <section class="header-wrapper d-flex justify-between item-center">
+            <a href="/"><img src="{{ url_for('static', filename='./assest/icon/anews_logo.png')}}" class="header-logo" alt="Anews Logo"></a>
+
+
+            <div class="header-right d-flex justify-between item-center">
+                {% if live == False %}
+                <a href="" style="color: black;">
+                    <div class="live d-flex justify-center item-center">
+                    </div>
+                </a>
+                {% else %}
+                <a target="_sachin" href="/live" style="color: black;">
+                    <div class="live d-flex justify-center item-center">
+                        <h4 class="live-status">Live</h4>
+                        <span class="live-alert"></span>
+                    </div>
+                </a>
+                {% endif %}
+
+                <form class="header-search" id="search-form">
+                    <input type="search" autocomplete="off" placeholder="Search" name="q" id="search">
+                    <div class="searchResult" id="result">
+                        
+                    </div>
+                </form>
+            </div>
+        </section>
+    </header>
+
+    <!-- Slider Text -->
+    <div class="news-slider">
+        <h2 class="sliding-text">
+            सुदूरपश्चिमको सभामुखमा माओवादीका भण्डारी निर्वाचित
+        </h2>
+    </div>
+
+    <!-- Mobile Trigger -->
+   <!-- Mobile Trigger -->
+   <div class="mobile-trigger d-flex item-center ">
+    <span class="material-symbols-outlined pointer" onclick="show_navBar()" id="nav-trigger">menu</span>
+    <span class="material-symbols-outlined pointer" id="suggest-news-trigger"
+        onclick="open_suggestNews('suggest-news-trigger')" style="visibility: hidden;">chevron_left</span>
+</div>
+
+
+<!-- NavBar -->
+<nav class="nav-bar" id="navBar">
+    <span class="material-symbols-outlined" style="display: none;" onclick="close_navBar()" id="mobile-nav-close">
+        close
+    </span>
+    <section class="navbar-wrapper mx-auto">
+        <ul class="nav-ul d-flex justify-center item-center">
+            <li class="nav-li"><a href="#" class="nav-link d-flex item-center"><span
+                        class="material-symbols-outlined">
+                        house
+                    </span></a></li>
+                    <li class="nav-li"><a href="/#latestNews" class="nav-link d-flex item-center">ताजा खबर</a></li>
+                    {% for nav in footerLinks %}
+                    <li class="nav-li"><a href="/categories?categories={{nav[0]}}" class="nav-link d-flex item-center">{{nav[0]}}</a></li>
+                            {% endfor %} 
+        </ul>
+    </section>
+</nav>
+
+
+    <!-- Categories Page Header -->
+    <section class="cato-page-header mx-auto d-flex justify-center item-center"
+        style="background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),url({{ url_for('static', filename='./assest/image/thisisengineering-raeng-w_zE6qlkQKA-unsplash.jpg')}});">
+        <h1 class="cato-page-header-title">
+           Live
+        </h1>
+    </section>
+
+    <!-- Live Iframe -->
+    <section class="live-iframe">
+        {% if live ==False %}
+                <img src="{{ url_for('static', filename='./assest/image/no_news.png')}}" style="width: 100%;" alt="">
+                <h2 class="title-live-video">Stay informed, stay ahead - Watch our latest updates anytime, anywhere.</h2>
+                {% else %}
+
+                {{iframe(live[0]) | safe}}
+                <h2 class="title-live-video">{{live[1]}}</h2>
+            
+                {% endif %}
+    </section>
+
+    <!-- Footer-->
+    <section class="footer">
+        <div class="footer-wrapper mx-auto">
+            <div class="footer-logo d-flex item-center">
+                <img src="/static/assest/icon/anews_logo.png" alt="Footer Anews Logo"
+                    class="footer-img">
+                <h1 class="footer-img-text">A News</h1>
+            </div>
+            <div class="footer-grid-box ">
+                <div class="footer-box footer-box1 d-flex justify-between ">
+                    <div class="fotter-box1-inside">
+                        <h2 class="footer-text">
+                            {{footerDesc['desc']}}
+                        </h2>
+                        
+                    </div>
+                    <div class="social-icon">
+                        <a href="{{config['instagramLink']}}" class="socail-platform-icon"><img
+                                src="/static/assest/icon/instagram.png" alt=""></a>
+                        <a href="{{config['twitterLink']}}" class="socail-platform-icon"><img
+                                src="/static/assest/icon/twitter.png" alt=""></a>
+                        <a href="{{config['youtubeLink']}}" class="socail-platform-icon"><img
+                                src="/static/assest/icon/youtube.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="footer-box footer-box3">
+                    <h2 class="footer-box-text">विज्ञापनको लागि सम्पर्क गर्नुहोस्</h2>
+                    <div class="footer-box-wrapper">
+                        <div class="footer-link d-flex item-center"><a>{{footerDesc['ads']}}</a></div>
+                        
+                    </div>
+                </div>
+                <div class="footer-box footer-box2">
+                    <h2 class="footer-box-text">समाचार</h2>
+                    <div class="footer-box-wrapper">
+                        <span style="display: none;">{{random.shuffle(cato) }}</span>
+                    
+                        {% for links in cato[:6] %}
+                            <div class="footer-link d-flex item-center"><span class="white-dot"></span> <a href="/categories?categories={{links[0]}}">{{links[0]}}</a></div>
+                            {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="footer-box footer-box4" style="display: none;">
+                    <h2 class="footer-box-text">Lifestyle News</h2>
+                    <h2 class="footer-box-text">Art</h2>
+                    <h2 class="footer-box-text">Diet</h2>
+                    <h2 class="footer-box-text">Health & Fitness</h2>
+                    <h2 class="footer-box-text">Technology</h2>
+                    <h2 class="footer-box-text">People</h2>
+
+                </div>
+            </div>
+            <h2 class="footer-copyright">All right reserved to anews | Copyright 2023 | <a href="#">Desgin by Caspr
+                    Digital</a> | <a href="/developer">About Developer</a></h2>
+        </div>
+
+    </section>
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,1,200" />
+
+<script src="/static/assest/script/script.js"></script>
+<script>
+    const searchForm = document.getElementById("search-form");
+        const resultDiv = document.getElementById("result");
+
+        // add an event listener to the search form
+        searchForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            console.log("okk")
+            resultDiv.innerHTML = ""
+            // get the keyword input element
+            const keywordInput = searchForm.querySelector('input[name="q"]');
+            // create a new XMLHttpRequest object
+            const xhr = new XMLHttpRequest();
+
+            // define the callback function
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+                    // display the result in the result element
+                    for (let i = 0; i < data.length; i++) {
+                        const post = data[i];
+
+                        // create a new a element with the post title
+                        const a = document.createElement('a');
+                        a.href = '/post/' + post.postid;
+
+                        // create a new h4 element with the post title
+                        const h4 = document.createElement('h4');
+                        h4.innerText = post.title.substring(0, 40);
+                        h4.classList.add('seacrchlist')
+
+                        // append the h4 element to the a element
+                        a.appendChild(h4);
+
+                        // append the a element to the result div
+                        resultDiv.appendChild(a);
+                    }
+                }
+            };
+
+            // send the request to the server
+            xhr.open("POST", "/search");
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.send("q=" + keywordInput.value);
+        });
+        const loader = document.getElementById('preloader');
+window.addEventListener('load', function(){
+    loader.style.display = "none"
+})
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/assest/style/anews_style.css">
+    <link rel="stylesheet" href="/static/assest/style/mediaQuery_anews_style.css">
+    <link rel="stylesheet" href="/static/assest/style/css_utlis.css">
+    <link rel="shortcut icon" href="/static/assest/icon/favicon-32x32.png"
+        type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <meta property="og:title" content="{{post[1]}} | Anews">
+    <meta property="og:description" content="{{post[2]}}">
+    <meta property="og:site_name" content="Anews Nepal">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="{{request.base_url.split("post/")[0]}}/staticuploads/post/'+ post[4])}}">
+    <meta property="og:image:secure_url" content="{{request.base_url.split("post/")[0]}}/staticuploads/post/'+ post[4])}}">
+    {% set url = request.base_url.split("post/")[0] + 'static/uploads/post/' + post[4] %}
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="{{size(url)[0]}}">
+    <meta property="og:image:height" content="{{size(url)[1]}}">
+    <title>{{post[1]}} | Anews</title>
+
+</head>
+
+<body>
+    <div id="preloader"></div>
+    <!-- Header -->
+    <header class="header d-flex justify-between item-center">
+        <section class="header-wrapper d-flex justify-between item-center">
+            <a href="/"><img src="/static/assest/icon/anews_logo.png" class="header-logo"
+                    alt="Anews Logo"></a>
+
+
+            <div class="header-right d-flex justify-between item-center">
+                {% if live == False %}
+                <a href="" style="color: black;">
+                    <div class="live d-flex justify-center item-center">
+                    </div>
+                </a>
+                {% else %}
+                <a target="_sachin" href="/live" style="color: black;">
+                    <div class="live d-flex justify-center item-center">
+                        <h4 class="live-status">Live</h4>
+                        <span class="live-alert"></span>
+                    </div>
+                </a>
+                {% endif %}
+
+                <form class="header-search" id="search-form">
+                    <input type="search" autocomplete="off" placeholder="Search" name="q" id="search">
+                    <div class="searchResult" id="result">
+                        
+                    </div>
+                </form>
+            </div>
+        </section>
+    </header>
+
+    <!-- Slider Text -->
+    <div class="news-slider">
+        <h2 class="sliding-text">
+            {{slidinNews['news'].replace(",", " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ") | safe}}
+        </h2>
+    </div>
+
+    <!-- Mobile Trigger -->
+    <div class="mobile-trigger d-flex item-center ">
+        <span class="material-symbols-outlined pointer" onclick="show_navBar()" id="nav-trigger">menu</span>
+        <span class="material-symbols-outlined pointer" id="suggest-news-trigger"
+            onclick="open_suggestNews('suggest-news-trigger')">chevron_left</span>
+    </div>
+
+
+    <!-- NavBar -->
+    <nav class="nav-bar" id="navBar">
+        <span class="material-symbols-outlined" style="display: none;" onclick="close_navBar()" id="mobile-nav-close">
+            close
+        </span>
+        <section class="navbar-wrapper mx-auto">
+            <ul class="nav-ul d-flex justify-center item-center">
+                <li class="nav-li"><a href="/" class="nav-link d-flex item-center"><span
+                            class="material-symbols-outlined">
+                            house
+                        </span></a></li>
+                        <li class="nav-li"><a href="/#latestNews" class="nav-link d-flex item-center">ताजा खबर</a></li>
+                        {% for nav in cato %}
+                <li class="nav-li"><a href="/categories?categories={{nav[0]}}" class="nav-link d-flex item-center">{{nav[0]}}</a></li>
+                        {% endfor %} 
+            </ul>
+        </section>
+    </nav>
+    <!-- Post Container -->
+    <section class="post-container">
+        <a href="#" class="btn ms-5">{{post[6]}}</a>
+        <div class="post-container-wrapper ">
+            <div class="left-box-post-page box post-box-common">
+                <div class="copy-link-post d-flex item-center">
+                    <div class="left-link-post d-flex justify-center item-center">
+                        <div class="wrapper-share-count">
+                            <h2 class="share-count text-center">
+                                {{count}}
+                            </h2>
+                            <h4 class="share-count-lower-text color-white text-center">
+                                Views
+                            </h4>
+                            <hr class="hr">
+                            <button class="btn-copy-link pointer d-flex item-center" id="copy-link"
+                                onclick="copyTextToClipboard()"> <img
+                                    src="/static/assest/icon/share-small.png" height="12" alt=""> Copy
+                                Link</button>
+                        </div>
+                    </div>
+                    <div class="right-link-post d-flex justify-center item-center">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://aonetelevision.com.np/postpage.html"
+                            class="top-share d-flex justify-center item-center"><img
+                                src="/static/assest/icon/facebook-small.png" alt=""></a>
+                        <a href="whatsapp://send?text=https://aonetelevision.com.np/postpage.html" class="top-share d-flex justify-center item-center"><img
+                                src="/static/assest/icon/whatsapp-small.png" alt=""></a>
+                        <a href="#" class="top-share d-flex justify-center item-center"><img
+                                src="/static/assest/icon/mail-small.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="ads-left-box pointer">
+                    <img src="/static/ads/postpage/long/1/{{os.listdir('./static/ads/postpage/long/1/')[0]}}"
+                        class="left-ads" alt="">
+                </div>
+            </div>
+            <div class="middle-box-post-page m-box post-box-common">
+                <div class="post-box-upper">
+                    <h1 class="title-news-post">
+                        {{post[1]}}
+                    </h1>
+                    <h4 class="subtitle-news-post">
+                        {{post[2]}}
+                    </h4>
+                    <hr class="hr">
+                    <h4 class="post-page-author  d-flex justify-between item-center">
+                        <span class="web-safe">{{post[8]}}</span>
+                        <span>{{post[7]}} द्वारा पोस्ट</span>
+                    </h4>
+                    <div class="post-page-news-show-wrapper">
+                        <div class="post-page-feature-img">
+                            <img src="/static/uploads/post/{{post[4]}}" alt="">
+                        </div>
+                        <p class="post-page-para">
+                            {{post[3][:500] | safe}}
+                        </p>
+
+                        <!-- Ads Section Here -->
+                        <div class="ads-in-post-page pointer">
+                            <div class="ads-in-post-1 adsPost d-flex justify-center">
+                                <img src="/static/ads/postpage/container/1/{{os.listdir('./static/ads/postpage/container/1/')[0]}}"
+                                    alt="">
+                            </div>
+                            <div class="ads-in-post-2 adsPost">
+                                <img src="/static/ads/postpage/container/2/{{os.listdir('./static/ads/postpage/container/2/')[0]}}"
+                                    alt="">
+                            </div>
+                        </div>
+
+                        <p class="post-page-para">
+                            {{post[3][500:] | safe}}
+                        </p>
+                        <!-- Date Section -->
+                        <h4 class="post-page-author web-safe d-flex justify-between item-center">
+                            <span class="web-safe">{{post[8]}}</span>
+                            <span>{{post[7]}} द्वारा पोस्ट</span>
+                        </h4>
+                        <!-- Share Section -->
+                        <div class="share-post d-flex item-center">
+                            <a href="#" class="share-platform post-share-facebook d-flex item-center"><img
+                                    src="/static/assest/icon/facebook-small.png" alt="">
+                                Facebook</a>
+                            <a href="#" class="share-platform post-share-whatsapp d-flex item-center"><img
+                                    src="/static/assest/icon/whatsapp-small.png" alt="">
+                                Whatsapp</a>
+                            <a href="#" class="share-platform post-share-gmail d-flex item-center"><img
+                                    src="/static/assest/icon/mail-small.png" alt="">
+                                Gmail</a>
+                        </div>
+
+                        <!-- Comment Show and Post -->
+                        <section class="post-commnent mx-auto">
+                            <h2 class="comment-title">
+                                Comment ({{len(comment)}})
+                            </h2>
+                            <div class="show-comment">
+
+                                {% for cmt in comment %}
+                                <div class="user-comment-table d-flex ">
+                                    <img src="/static/assest/icon/default-user.png" alt=""
+                                        class="avatar-user">
+                                    <div class="user-comment-desc">
+                                        <h2 class="user-commented-name">{{cmt[3]}}</h2>
+                                        <p class="user-commented-desc">
+                                            {{cmt[2]}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr class="commet-table-end">
+                                {% endfor %}
+
+                            </div>
+                            <div class="submit-comment">
+                                <h2 class="comment-title">
+                                    Add Comment
+                                </h2>
+                                <form action="/posts/add-comment/{{post[0]}}" onsubmit="return verifyRecaptcha()"
+                                    name="comment" method="post" class="d-flex add-comment-form" autocomplete="off">
+                                    <input required type="text" name="commented-username" id="commented-username"
+                                        placeholder="Full Name">
+                                    <div id="error-show"></div>
+                                    <textarea required name="comment-desc" id="comment-desc" rows="5"
+                                        placeholder="Describe about post here..."></textarea>
+                                    <div id="error-show1"></div>
+                                    <div class="re-captcha">
+                                        <div class="g-recaptcha" data-sitekey="{{config['recaptcha']['site-key']}}">
+                                        </div>
+                                    </div>
+                                    <input type="submit" class="submit-comment pointer" id="submit-comment"
+                                        value="Add Comment">
+                                </form>
+                            </div>
+                            <!-- Comment Show and Post END -->
+
+                        </section>
+                    </div>
+                </div>
+
+            </div>
+            <div class="right-box-post-page box post-box-common">
+
+                <div class="youtube-facebook">
+                    <div class="platform-container "
+                        style="background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),url({{social['facebook']['cover_pic']}})">
+                        <div class="platform-container-upper d-flex justify-center item-center">
+                            <img src="{{social['facebook']['profile_pic']}}" alt="">
+                            <div class="platfrom-desc-wrapper">
+                                <h2 class="platform-container-name">{{social["facebook"]["page_name"]}}</h2>
+                                <h4 class="platform-container-fan">{{social["facebook"]["total_fan"]}} Follower</h4>
+                            </div>
+                        </div>
+                        <div class="platform-container-lower d-flex justify-center item-center">
+                            <a href="https://www.facebook.com/{{config['facebook']['PAGE_ID']}}"><img src="/static/assest/icon/facebook-like-btn.png"
+                                    alt="" class="platform-share-bth"></a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.facebook.com/{{config['facebook']['PAGE_ID']}}"><img
+                                    src="/static/assest/icon/facebook-share-btn.png" alt=""
+                                    class="platform-share-bth"></a>
+                        </div>
+                    </div>
+                    <div class="platform-container"
+                        style="background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),url(/static/assest/image/petter-lagson-G43Bnq-NLH4-unsplash.jpg)">
+                        <div class="platform-container-upper d-flex justify-center item-center">
+                            <img src="{{social["youtube"]["channel_profile"]}}" alt="">
+                            <div class="platfrom-desc-wrapper">
+                                <h2 class="platform-container-name">{{social["youtube"]["channel_name"]}}</h2>
+                                <h4 class="platform-container-fan">{{social["youtube"]["total_sub"]}} Suscriber</h4>
+                            </div>
+                        </div>
+                        <div class="platform-container-lower d-flex justify-center item-center">
+                            <a href=""><img src="/static/assest/icon/facebook-like-btn.png"
+                                    alt="" class="platform-share-bth"></a>
+                            <a href=""><img
+                                    src="/static/assest/icon/facebook-share-btn.png" alt=""
+                                    class="platform-share-bth"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-ads">
+                    <img src="/static/ads/postpage/sidebar/1/{{os.listdir('./static/ads/postpage/sidebar/1/')[0]}}"
+                        alt="">
+                    <img src="/static/ads/postpage/sidebar/2/{{os.listdir('./static/ads/postpage/sidebar/2/')[0]}}"
+                        alt="">
+                    <img src="/static/ads/postpage/sidebar/3/{{os.listdir('./static/ads/postpage/sidebar/3/')[0]}}"
+                        alt="">
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Show Horoscope -->
+    <section class="show-horoscope">
+        <h2 class="horo-today">Today Horoscope</h2>
+        <div class="horoscope-wrapper">
+            <div class="horoscope-tables">
+                <span class="horo-img">
+                    <img src="/static/assest/icon/zodic-logo/leo.png" alt=""
+                        class="horo-logo">
+                </span>
+                <div class="horo-details">
+                    <h2 class="horo-name">
+                        Leo (सिंह)
+                    </h2>
+                    <h4 class="horo-desc">
+                        {{horoscope["leo"][:150]}}...
+                    </h4>
+                </div>
+            </div>
+            <div class="horoscope-tables">
+                <span class="horo-img">
+                    <img src="/static/assest/icon/zodic-logo/sagittarius.png" alt=""
+                        class="horo-logo">
+                </span>
+                <div class="horo-details">
+                    <h2 class="horo-name">
+                        Sagittarius (धनु)
+                    </h2>
+                    <h4 class="horo-desc">
+                        {{horoscope["sagittarius"][:150]}}...
+                    </h4>
+                </div>
+            </div>
+            <div class="horoscope-tables">
+                <span class="horo-img">
+                    <img src="/static/assest/icon/zodic-logo/pisces.png" alt=""
+                        class="horo-logo">
+                </span>
+                <div class="horo-details">
+                    <h2 class="horo-name">
+                        Pisces (मीन)
+                    </h2>
+                    <h4 class="horo-desc">
+                        {{horoscope["pisces"][:150]}}...
+                    </h4>
+                </div>
+            </div>
+            <div class="horoscope-tables">
+                <span class="horo-img">
+                    <img src="/static/assest/icon/zodic-logo/aries.png" alt=""
+                        class="horo-logo">
+                </span>
+                <div class="horo-details">
+                    <h2 class="horo-name">
+                        Aries (मेष)
+                    </h2>
+                    <h4 class="horo-desc">
+                        {{horoscope["aries"][:150]}}...
+                    </h4>
+                </div>
+            </div>
+            <div class="horoscope-tables">
+                <span class="horo-img">
+                    <img src="/static/assest/icon/zodic-logo/gemini.png" alt=""
+                        class="horo-logo">
+                </span>
+                <div class="horo-details">
+                    <h2 class="horo-name">
+                        Gemini (मिथुन)
+                    </h2>
+                    <h4 class="horo-desc">
+                        {{horoscope["gemini"][:150]}}...
+                    </h4>
+                </div>
+            </div>
+            <div class="horoscope-tables">
+                <span class="horo-img">
+                    <img src="/static/assest/icon/zodic-logo/libra.png" alt=""
+                        class="horo-logo">
+                </span>
+                <div class="horo-details">
+                    <h2 class="horo-name">
+                        Libra (तुला)
+                    </h2>
+                    <h4 class="horo-desc">
+                        {{horoscope["libra"][:150]}}...
+                    </h4>
+                </div>
+            </div>
+            <div class="horoscope-tables">
+                <span class="horo-img">
+                    <img src="/static/assest/icon/zodic-logo/aquarius.png" alt=""
+                        class="horo-logo">
+                </span>
+                <div class="horo-details">
+                    <h2 class="horo-name">
+                        Aquarius (कुम्भ)
+                    </h2>
+                    <h4 class="horo-desc">
+                        {{horoscope["aquarius"][:150]}}...
+                    </h4>
+                </div>
+            </div>
+            <div class="horoscope-tables">
+                <span class="horo-img">
+                    <img src="/static/assest/icon/zodic-logo/taurus.png" alt=""
+                        class="horo-logo">
+                </span>
+                <div class="horo-details">
+                    <h2 class="horo-name">
+                        Taurus (वृष)
+                    </h2>
+                    <h4 class="horo-desc">
+                        {{horoscope["taurus"][:150]}}...
+                    </h4>
+                </div>
+            </div>
+            <div class="horoscope-tables">
+                <span class="horo-img">
+                    <img src="/static/assest/icon/zodic-logo/cancer.png" alt=""
+                        class="horo-logo">
+                </span>
+                <div class="horo-details">
+                    <h2 class="horo-name">
+                        Cancer (करकट)
+                    </h2>
+                    <h4 class="horo-desc">
+                        {{horoscope["cancer"][:150]}}...
+                    </h4>
+                </div>
+            </div>
+            <div class="horoscope-tables">
+                <span class="horo-img">
+                    <img src="/static/assest/icon/zodic-logo/capricorn.png" alt=""
+                        class="horo-logo">
+                </span>
+                <div class="horo-details">
+                    <h2 class="horo-name">
+                        Capricorn (मकर)
+                    </h2>
+                    <h4 class="horo-desc">
+                        {{horoscope["capricorn"][:150]}}...
+                    </h4>
+                </div>
+            </div>
+            <div class="horoscope-tables">
+                <span class="horo-img">
+                    <img src="/static/assest/icon/zodic-logo/virgo.png" alt=""
+                        class="horo-logo">
+                </span>
+                <div class="horo-details">
+                    <h2 class="horo-name">
+                        Virgo (कन्या)
+                    </h2>
+                    <h4 class="horo-desc">
+                        {{horoscope["virgo"][:150]}}...
+                    </h4>
+                </div>
+            </div>
+            <div class="horoscope-tables">
+                <span class="horo-img">
+                    <img src="/static/assest/icon/zodic-logo/scorpio.png" alt=""
+                        class="horo-logo">
+                </span>
+                <div class="horo-details">
+                    <h2 class="horo-name">
+                        Scorpio (वृश्चिक)
+                    </h2>
+                    <h4 class="horo-desc">
+                        {{horoscope["scorpio"][:150]}}...
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Feature img -->
+    <section class="feature-img mx-auto">
+        <div class="cato-header">
+            <a href="#" class="btn">Feature Photos</a>
+            <a href="#" class="d-flex item-center"><img class="cato-btn-img"
+                    src="/static/assest/icon/arrow-right-circle.svg" alt=""></a>
+        </div>
+        <div class="wrapper-grid">
+            <div class="feature-img-wrapper">
+                {% for fpic in ft %}
+                <div class="feature-pic feature-pic1"><img
+                        src="/static/uploads/feature/{{fpic[4]}}"
+                        alt="" class="feat-img"></div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+
+    <!-- News Container Style 1-->
+    {% for ct in cato[0:2] %}
+        {% if style(ct[0]) == "style1"%}
+        {% set recent = postByCato(ct[0])[::-1][0] %}
+        <section class="lower-news-container container-style1" id="style1">
+            <div class="wrapper-news-container mx-auto">
+                <div class="cato-header">
+                    <a href="/categories?categories={{ct[0]}}" class="btn">{{ct[0]}}</a>
+                    <a href="/categories?categories={{ct[0]}}" class="d-flex item-center"><img class="cato-btn-img"
+                            src="/static/assest/icon/arrow-right-circle.svg" alt=""></a>
+                </div>
+                <div class="news-container-childnode d-flex ">
+                    <div class="right-side-news-container">
+                        <div class="flash-news-left">
+                            <a href="/post/{{recent[0]}}">
+                                <img src="/static/uploads/post/{{recent[4]}}" alt=""
+                                    class="flash-news-img">
+                                <h2 class="flash-news-title">
+                                    {{recent[1][:50]}}
+                                </h2>
+                                <p class="flash-news-para">{{recent[3][:500] |safe}}</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="divider-box">
+                        <div class="division">
+                        </div>
+                    </div>
+                    <div class="left-side-thumb-news">
+
+                        <div class="right-thumb-news">
+                            {% for thumbpost in postByCato(ct[0])[::-1][1:7] %}
+                            <div class="thumb-news thumb-news1">
+                                <a href="/post/{{thumbpost[0]}}"><img src="/static/uploads/post/{{thumbpost[4]}}" alt=""
+                                        class="thumb-news-img">
+                                    <h2 class="thumb-news-title">
+                                        {{thumbpost[1][:50]}}
+                                    </h2>
+                                </a>
+    
+                            </div>
+                            {% endfor %}
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% else %}
+        {% set recents = postByCato(ct[0])[::-1][0] %}
+            <!-- News Container Style 1-->
+   <section class="lower-news-container container-style1" id="style2">
+        <div class="wrapper-news-container mx-auto">
+            <div class="cato-header">
+                <a href="/categories?categories={{ct[0]}}" class="btn">{{ct[0]}}</a>
+                <a href="/categories?categories={{ct[0]}}" class="d-flex item-center"><img class="cato-btn-img"
+                        src="/static/assest/icon/arrow-right-circle.svg" alt=""></a>
+            </div>
+            <div class="news-container-childnode d-flex ">
+                <div class="right-side-news-container">
+                    <div class="flash-news-left">
+                        <a href="/post/{{recents[0]}}">
+                            <img src="/static/uploads/post/{{recents[4]}}" alt=""
+                                class="flash-news-img">
+                            <h2 class="flash-news-title">
+                                {{recents[1][:50]}}
+                            </h2>
+                            <p class="flash-news-para">{{recents[3][:500] |safe}}</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="divider-box">
+                    <div class="division">
+                    </div>
+                </div>
+                <div class="left-side-thumb-news">
+                    <div class="right-thumb-news-style">
+                        {% for thumbpost in postByCato(ct[0])[::-1][1:5] %}
+                        <div class="thumb-news-style thumb-news1">
+                            <a href="/post/{{thumbpost[0]}}"><img src="/static/uploads/post/{{thumbpost[4]}}" alt=""
+                                    class="style-thumb-news-img">
+                                <div class="style-thumb-news-containet">
+                                    <h2 class="style-thumb-news-title">
+                                        {{thumbpost[1][:50]}}
+                                    </h2>
+                                    <p class="style-thumb-news-para">
+                                        {{thumbpost[2][:80]}}
+                                    </p>
+                                </div>
+                            </a>
+
+                        </div>
+                        {% endfor %}
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        {% endif %}
+   
+    
+{% endfor %}>
+
+    <!-- SEO Keyword Helper -->
+    <section class="seo-keyword mx-auto">
+        <hr class="seo-hr mx-auto">
+        <p class="seo-keyword-para">
+            मध्यनेपाल नगरपालिका–६ भोर्लेटारस्थित ईशानेश्वर मावि कक्षा १२ मा अध्ययन गर्ने अविनाश गुरुङ १७ वर्ष पुगे ।
+            मध्यनेपाल–८ डडुवामा कक्षा ८ पास गरेपछि ईशानेश्वर माविमा भर्ना भएका उनले प्राविधिक शिक्षाअन्तर्गत बाली
+            विज्ञान विषय रोजे । तर उनको मन भने इन्जिनियरिङ विषयमा मोडियो । त्यतिबेला नै डोजर बनाएर सबैलाई चकित पारेका
+            अविनाशले यस पटक ‘इलेक्ट्रिक स्कुटर’ बनाएका छन् ।मध्यनेपाल नगरपालिका–६ भोर्लेटारस्थित ईशानेश्वर मावि कक्षा १२
+            मा अध्ययन गर्ने अविनाश गुरुङ १७ वर्ष पुगे । मध्यनेपाल–८ डडुवामा कक्षा ८ पास गरेपछि ईशानेश्वर माविमा भर्ना
+            भएका उनले प्राविधिक शिक्षाअन्तर्गत बाली विज्ञान विषय रोजे । तर उनको मन भने इन्जिनियरिङ मध्यनेपाल नगरपालिका–६
+            भोर्लेटारस्थित ईशानेश्वर मावि कक्षा १२ मा अध्ययन गर्ने अविनाश गुरुङ १७ वर्ष पुगे । मध्यनेपाल–८ डडुवामा कक्षा
+            ८ पास गरेपछि ईशानेश्वर माविमा भर्ना भएका उनले प्राविधिक शिक्षाअन्तर्गत बाली विज्ञान विषय रोजे । तर उनको मन
+            भने इन्जिनियरिङ विषयमा मोडियो । त्यतिबेला नै डोजर बनाएर सबैलाई चकित पारेका अविनाशले यस पटक ‘इलेक्ट्रिक
+            स्कुटर’ बनाएका छन् ।विषयमा मोडियो । त्यतिबेला नै डोजर बनाएर सबैलाई चकित पारेका अविनाशले यस पटक ‘इलेक्ट्रिक
+            स्कुटर’ बनाएका छन् ।मध्यनेपाल नगरपालिका–६ भोर्लेटारस्थित ईशानेश्वर मावि कक्षा १२ मा अध्ययन गर्ने अविनाश
+            गुरुङ १७ वर्ष पुगे । मध्यनेपाल–८ डडुवामा कक्षा ८ पास गरेपछि ईशानेश्वर माविमा भर्ना भएका उनले प्राविधिक
+            शिक्षाअन्तर्गत बाली विज्ञान विषय रोजे । तर उनको मन भने इन्जिनियरिङ विषयमा मोडियो । त्यतिबेला नै डोजर बनाएर
+            सबैलाई चकित पारेका अविनाशले यस पटक ‘इलेक्ट्रिक स्कुटर’ बनाएका छन् ।मध्यनेपाल नगरपालिका–६ भोर्लेटारस्थित
+            ईशानेश्वर मावि कक्षा १२ मा अध्ययन गर्ने अविनाश गुरुङ १७ वर्ष पुगे । मध्यनेपाल–८ डडुवामा कक्षा ८ पास गरेपछि
+            ईशानेश्वर माविमा भर्ना भएका उनले प्राविधिक शिक्षाअन्तर्गत बाली विज्ञान विषय रोजे । तर उनको मन भने
+            इन्जिनियरिङ विषयमा मोडियो । त्यतिबेला नै डोजर बनाएर सबैलाई चकित पारेका अविनाशले यस पटक ‘इलेक्ट्रिक स्कुटर’
+            बनाएका छन् ।
+        </p>
+        <hr class="seo-hr mx-auto" id="lower-hr">
+    </section>
+
+    <!-- Footer-->
+    <section class="footer">
+        <div class="footer-wrapper mx-auto">
+            <div class="footer-logo d-flex item-center">
+                <img src="/static/assest/icon/anews_logo.png" alt="Footer Anews Logo"
+                    class="footer-img">
+                <h1 class="footer-img-text">A News</h1>
+            </div>
+            <div class="footer-grid-box ">
+                <div class="footer-box footer-box1 d-flex justify-between ">
+                    <div class="fotter-box1-inside">
+                        <h2 class="footer-text">
+                            {{footerDesc['desc']}}
+                        </h2>
+                        
+                    </div>
+                    <div class="social-icon">
+                        <a href="{{config['instagramLink']}}" class="socail-platform-icon"><img
+                                src="/static/assest/icon/instagram.png" alt=""></a>
+                        <a href="{{config['twitterLink']}}" class="socail-platform-icon"><img
+                                src="/static/assest/icon/twitter.png" alt=""></a>
+                        <a href="{{config['youtubeLink']}}" class="socail-platform-icon"><img
+                                src="/static/assest/icon/youtube.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="footer-box footer-box3">
+                    <h2 class="footer-box-text">विज्ञापनको लागि सम्पर्क गर्नुहोस्</h2>
+                    <div class="footer-box-wrapper">
+                        <div class="footer-link d-flex item-center"><a>{{footerDesc['ads']}}</a></div>
+                        
+                    </div>
+                </div>
+                <div class="footer-box footer-box2">
+                    <h2 class="footer-box-text">समाचार</h2>
+                    <div class="footer-box-wrapper">
+                        <span style="display: none;">{{random.shuffle(cato) }}</span>
+                    
+                        {% for links in cato[:6] %}
+                            <div class="footer-link d-flex item-center"><span class="white-dot"></span> <a href="/categories?categories={{links[0]}}">{{links[0]}}</a></div>
+                            {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="footer-box footer-box4" style="display: none;">
+                    <h2 class="footer-box-text">Lifestyle News</h2>
+                    <h2 class="footer-box-text">Art</h2>
+                    <h2 class="footer-box-text">Diet</h2>
+                    <h2 class="footer-box-text">Health & Fitness</h2>
+                    <h2 class="footer-box-text">Technology</h2>
+                    <h2 class="footer-box-text">People</h2>
+
+                </div>
+            </div>
+            <h2 class="footer-copyright">All right reserved to anews | Copyright 2023 | <a href="#">Desgin by Caspr
+                    Digital</a> | <a href="/developer">About Developer</a></h2>
+        </div>
+
+    </section>
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,1,200" />
+
+    <script>
+
+
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <script src="/static/assest/script/script.js"></script>
+    <script>
+const searchForm = document.getElementById("search-form");
+const resultDiv = document.getElementById("result");
+
+// add an event listener to the search form
+searchForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    resultDiv.innerHTML = ""
+    // get the keyword input element
+    const keywordInput = searchForm.querySelector('input[name="q"]');
+    // create a new XMLHttpRequest object
+    const xhr = new XMLHttpRequest();
+
+    // define the callback function
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const data = JSON.parse(xhr.responseText);
+            // display the result in the result element
+            for (let i = 0; i < data.length; i++) {
+                const post = data[i];
+                // create a new a element with the post title
+                const a = document.createElement('a');
+                a.href = '/post/' + post.postid;
+
+                // create a new h4 element with the post title
+                const h4 = document.createElement('h4');
+                h4.innerText = post.title.substring(0, 40);
+                h4.classList.add('seacrchlist')
+
+                // append the h4 element to the a element
+                a.appendChild(h4);
+
+                // append the a element to the result div
+                resultDiv.appendChild(a);
+            }
+        }
+    };
+
+    // send the request to the server
+    xhr.open("POST", "/search");
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("q=" + keywordInput.value);
+});
+const loader = document.getElementById('preloader');
+window.addEventListener('load', function(){
+    loader.style.display = "none"
+})
+    </script>
+</body>
+
+
+
+
+</html>

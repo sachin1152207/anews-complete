@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/a58f8dca66.js" crossorigin="anonymous"></script>
+    <!-- <link rel="stylesheet" href="/dev.css"> -->
+    <title>Sachin Shrivastv</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Open+Sans:wght@300;500&display=swap');
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        html {
+            font-size: 62.5%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background-color: #ffff;
+            height: 100vh;
+        }
+
+        .upper-section {
+            margin-top: 5rem;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 4.5rem;
+            font-family: 'Josefin Sans', sans-serif;
+        }
+
+        .subtitle {
+            font-size: 2rem;
+        }
+
+        .left-title {
+            font-size: 2.5rem;
+            margin-top: 1rem;
+        }
+
+        .left-subtitle {
+            font-size: 1.8rem;
+            margin-top: 3rem;
+            line-height: 2.9rem;
+            width: 85%;
+        }
+
+        span {
+            font-size: 1.6rem;
+            color: #439A97;
+        }
+
+        .middle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .middle div {
+            background-image: url('/static/assest/image/IMG_20230131_183149.jpg');
+            border-radius: 50%;
+            background-size: cover;
+            height: 250px;
+            width: 250px;
+            margin-left: -15px;
+        }
+
+        .details {
+            margin-top: 1.2rem;
+            font-size: 1.8rem;
+        }
+
+        .name {
+            font-weight: 500;
+        }
+
+        .ans {
+            font-size: 1.7rem;
+            font-weight: 400;
+        }
+
+        .social-icon {
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        a {
+            font-size: 2rem;
+            color: black;
+        }
+
+        .box {
+            height: 100%;
+        }
+
+        .main-section {
+            margin: 10rem auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            width: 80vw;
+
+        }
+
+        @media (max-width: 1080px) {
+            .left-subtitle {
+                font-size: 1.7rem;
+            }
+        }
+
+        @media (max-width: 880px) {
+            .main-section {
+                grid-template-rows: repeat(3, 1fr);
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="upper-section">
+        <h2 class="title">Profie</h2>
+        <p class="subtitle">I'm Creative Python Web Developer</p>
+    </div>
+    <section class="main-section">
+        <div class="left box">
+            <h2 class="left-title">About me</h2>
+            <p class="left-subtitle">
+                I’m Sachin Shrivastv, A full stack web developer with web desgin skill. I’m capable of making any type
+                of website with both frontend and backend as well as. Hire me to grab your design into website.
+                <br>
+                <br>
+                <span>Call me +977-9867788827</span>
+            </p>
+        </div>
+        <div class="middle box">
+            <div></div>
+        </div>
+        <div class="right box">
+            <h2 class="left-title">Details</h2>
+            <h2 class="details name"><b>Name:</b></h2>
+            <h2 class="details ans">Sachin Shrivastv</h2>
+            <h2 class="details name"><b>Age:</b></h2>
+            <h2 class="details ans">16 Years</h2>
+            <h2 class="details name"><b>Location:</b></h2>
+            <h2 class="details ans">Birta Ganesh Man Tole, Birgunj Nepal</h2>
+            <div class="social-icon">
+                <a href="https://www.facebook.com/badhshah250" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://github.com/sachin1152207" target="_blank"><i class="fa-brands fa-github"></i></a>
+                <a href="https://wa.me/+9779867788827" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
