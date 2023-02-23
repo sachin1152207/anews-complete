@@ -1,0 +1,32 @@
+{
+  "mysql": {
+    "host": "localhost",
+    "username": "root",
+    "password": "",
+    "database": "anews"
+  },
+  "recaptcha": {
+    "site-key": "6Lcxq3MkAAAAAC9oSJZat7jfr0QMvBpy3rdL7tPo",
+    "secret-key": "6Lcxq3MkAAAAAIX1QUFLnh4bl1T65V3MUXV6hwsj"
+  },
+  "timezone": { "IST": "Asia/Kathmandu", "UTC": "5:45" },
+  "facebook": {
+    "PAGE_TOKEN": "EAAHGavknbDEBAGJAuArNfu8cDqaLKb8fpzxZAKle89Gc7gIyJn0ZCXJ6B6i1yHLuDyEuCnSJvQZC3ouSFe4TAajhJb4IK7PzoxFqZBe9VJYoAu5c9WrHicxXQcPi8N6TMUfpoOuzh6Xzn1olxUIpUtEXWhshjzSVmhclDTLbm7f8XVPYRDJF9se8fHquyieeCaZAWdofFQd1cbFGZBlVKd",
+    "PAGE_ID": "104647021372222"
+  },
+  "google": {
+    "GOOGLE_API_KEY": "AIzaSyDSwiP6vUlNo7Y_0KftRt2ezwTmGPr4qns",
+    "CHANNEL_ID": "UCtSuqtW3IouefleSsYyfh8Q"
+  },
+  "allowed_extenstion": "png,webp,jpg,jpeg,gif",
+  "compress_quality": 80,
+  "FILE_PER_PAGE": 12,
+  "POST_UPLOAD": "./static/uploads/post/",
+  "GALLERY_UPLOAD": "./static/uploads/gallery/",
+  "FEATURE_UPLOAD": "./static/uploads/feature/",
+  "USER_UPLOAD": "./static/uploads/user/",
+  "NUMBER_OF_SILDER": 6,
+  "instagramLink": "https://instagram.com/example",
+  "youtubeLink": "https://youtube.com/example",
+  "twitterLink": "https://twitter.com/example"
+}
